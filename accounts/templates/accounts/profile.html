@@ -28,6 +28,16 @@
 
             <!-- Create Post Button -->
             <div class="text-center mb-6">
+                {% if profile.profile_picture %}
+                <img
+                    src="{{ profile.profile_picture.url }}"
+                    alt="Profile Picture"
+                    class="rounded-full w-32 h-32"
+                />
+                {% else %}
+                <p>No profile picture availabl</p>
+                {% endif %}
+                <a href="{% url 'edit_profile' %}"> edit profile </a>
                 <a href="{% url 'create_post' %}">
                     <button
                         type="button"

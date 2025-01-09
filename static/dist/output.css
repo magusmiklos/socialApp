@@ -587,8 +587,16 @@ video {
   display: flex;
 }
 
+.h-32 {
+  height: 8rem;
+}
+
 .h-screen {
   height: 100vh;
+}
+
+.w-32 {
+  width: 8rem;
 }
 
 .w-full {
@@ -625,6 +633,10 @@ video {
 
 .break-words {
   overflow-wrap: break-word;
+}
+
+.rounded-full {
+  border-radius: 9999px;
 }
 
 .rounded-lg {
@@ -834,4 +846,14 @@ video {
 
 .focus\:ring-opacity-50:focus {
   --tw-ring-opacity: 0.5;
+}
+
+@media (min-width: 640px) {
+  .sm\:max-w-md {
+    max-width: 28rem;
+  }
+
+  .sm\:p-8 {
+    padding: 2rem;
+  }
 }
