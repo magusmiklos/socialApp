@@ -1,8 +1,10 @@
-
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+
+from accounts.forms import PostForm
+from accounts.models import Post
 
 def user_login(request):
     if request.method == 'POST':
@@ -18,7 +20,9 @@ def user_login(request):
 
 @login_required
 def user_profile(request):
-    return render(request, 'accounts/profile.html', {'user':request.user})
+    user_posts = Post.objects.filter(user=request.user)
+
+    return render(request, 'accounts/profile.html', {'user':request.user, 'user_posts':user_posts})
 
 def user_logout(request):
     logout(request)
@@ -26,4 +30,17 @@ def user_logout(request):
 
 @login_required
 def create_post(request):
-    return render(request, 'accounts/create.html')
+    if request.method == 'POST':
+       form = PostForm(request.POST)
+       form.request = request
+       if form.is_valid():
+           form.save()
+           return redirect('profile')
+    else:
+        form = PostForm()
+    return render(request, 'accounts/create.html', {'form': form})
+
+@login_required
+def load_post(request, id):
+    post = get_object_or_404(Post,id=id)
+    return render(request, 'accounts/post.html', {'post': post})

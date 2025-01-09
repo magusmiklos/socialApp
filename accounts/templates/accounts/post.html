@@ -1,0 +1,23 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{ post.title }}</title>
+        <link href="{% static 'dist/output.css' %}" rel="stylesheet" />
+    </head>
+    <body class="bg-gray-100 font-sans leading-normal tracking-normal">
+        <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">
+                {{ post.title }}
+            </h1>
+            <p class="text-gray-700 text-lg mb-6">{{ post.text }}</p>
+            <a
+                href="{% url 'profile' %}"
+                class="text-blue-500 hover:text-blue-700 font-semibold"
+                >Back to Profile</a
+            >
+        </div>
+    </body>
+</html>
