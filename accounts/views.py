@@ -44,3 +44,12 @@ def create_post(request):
 def load_post(request, id):
     post = get_object_or_404(Post,id=id)
     return render(request, 'accounts/post.html', {'post': post})
+
+@login_required
+def delete_post(request, id):
+    post = get_object_or_404(Post,id=id)
+
+    if post.user == request.user:
+        post.delete()
+
+    return redirect('profile')
