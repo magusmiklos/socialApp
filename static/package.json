@@ -2,9 +2,6 @@
   "name": "static",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "build:css": "npx tailwindcss -i ./styles.css -o ./dist/output.css --watch"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",

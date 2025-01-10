@@ -12,7 +12,8 @@ class PostForm(forms.ModelForm):
         if commit:
             post.save()
         return post
+
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['profile_picture']
+        fields = ['profile_picture','bio']

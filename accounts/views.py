@@ -67,9 +67,15 @@ def edit_profile(request):
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
+            old_picture = profile.profile_picture
+            new_picture = form.cleaned_data.get('profile_picture')
+
             form.save()
-            return redirect('profile')
+            if old_picture != new_picture:
+                return redirect('edit_profile')
+            else:
+                return redirect('profile')
     else:
         form = ProfileForm(instance=profile)
 
-    return render(request, 'accounts/edit_profile.html', {'form': form})
+    return render(request, 'accounts/edit_profile.html', {'form': form, 'profile':profile})
