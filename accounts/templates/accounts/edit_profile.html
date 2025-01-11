@@ -23,29 +23,16 @@
 
                         <div class="mb-3 text-center">
                             <div class="mb-3">
-                                {% if profile.profile_picture %}
                                 <img
                                     src="{{ profile.profile_picture.url }}"
                                     alt="Profile Picture"
-                                    class="rounded-circle mb-0 mt-4"
+                                    class="rounded-circle mb-3"
                                     style="
                                         width: 150px;
                                         height: 150px;
                                         object-fit: cover;
                                     "
                                 />
-                                {% else %}
-                                <img
-                                    src="https://via.placeholder.com/150"
-                                    alt="Placeholder Profile"
-                                    class="rounded-circle mb-0"
-                                    style="
-                                        width: 150px;
-                                        height: 150px;
-                                        object-fit: cover;
-                                    "
-                                />
-                                {% endif %}
                             </div>
                             <a
                                 href="javascript:void(0);"
@@ -84,7 +71,7 @@
                                 onclick="window.location.href='{% url 'profile' %}'"
                                 class="btn btn-outline-secondary"
                             >
-                                Cancel
+                                Back
                             </button>
                         </div>
                     </form>

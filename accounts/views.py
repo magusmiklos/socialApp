@@ -3,7 +3,7 @@ from django.core.serializers.base import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-
+from django.contrib.auth.forms import UserCreationForm
 from accounts.forms import PostForm, ProfileForm
 from accounts.models import Post, Profile
 
@@ -14,19 +14,28 @@ def user_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('profile')  # Replace 'home' with your desired redirect URL
+            return redirect('explore')  # Replace 'home' with your desired redirect URL
         else:
             messages.error(request, 'Invalid username or password')
     return render(request, 'accounts/login.html')
 
-@login_required
-def user_profile(request):
-    user_posts = Post.objects.filter(user=request.user)
+def user_register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            Profile.objects.create(user=request.user)
+            return redirect('explore')
+    else:
+        form = UserCreationForm()
 
-    try:
-        profile = Profile.objects.get(user=request.user)
-    except ObjectDoesNotExist:
-        profile = None
+    return render(request, 'accounts/register.html', {'form': form})
+
+def user_profile(request):
+    user_posts = Post.objects.filter(user=request.user).order_by('-created_at')
+
+    profile = Profile.objects.get(user=request.user)
 
     return render(request, 'accounts/profile.html', {'user':request.user, 'user_posts':user_posts, 'profile':profile})
 
@@ -67,14 +76,8 @@ def edit_profile(request):
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
-            old_picture = profile.profile_picture
-            new_picture = form.cleaned_data.get('profile_picture')
-
             form.save()
-            if old_picture != new_picture:
-                return redirect('edit_profile')
-            else:
-                return redirect('profile')
+            return redirect('edit_profile')
     else:
         form = ProfileForm(instance=profile)
 
