@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.core.serializers.base import ObjectDoesNotExist
 from django.contrib.auth.models import User
 from accounts.models import Post,Profile
+from django.core.paginator import Paginator
 import profile
 
 @login_required
@@ -17,9 +18,16 @@ def explore_view(request):
     else:
         posts = Post.objects.all()
     posts = posts.order_by('-created_at')
+    for post in posts:
+        post.text = post.text.replace('\n', '<br>')
 
     posts_with_user = [(post, post.user) for post in posts]
-    return render(request,'explores/explore.html', {'posts_with_user':posts_with_user, 'search_query':search_query, })
+
+    paginator = Paginator(posts_with_user, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request,'explores/explore.html', {'page_obj':page_obj, 'search_query':search_query, })
 
 @login_required
 def check_out_profile(request, id):

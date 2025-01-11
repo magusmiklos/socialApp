@@ -19,7 +19,9 @@
                     <h1 class="card-title display-4 text-dark mb-4">
                         {{ post.title }}
                     </h1>
-                    <p class="card-text text-muted mb-4">{{ post.text }}</p>
+                    <p class="card-text text-muted mb-4">
+                        {{ post.text|linebreaksbr }}
+                    </p>
 
                     <!-- Back to Profile and Delete Post Buttons -->
                     <div class="d-flex justify-content-between">

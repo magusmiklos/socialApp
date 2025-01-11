@@ -1,0 +1,37 @@
+/* Spinning Rainbow Border Class */
+.spin-rainbow {
+    position: relative;
+    display: inline-block;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: white; /* Or any background color of your choice */
+    animation: spin-rainbow 6s infinite linear;
+}
+
+@keyframes spin-rainbow {
+    0% {
+        border: 5px solid red;
+        background-color: white;
+    }
+    14% {
+        border: 5px solid orange;
+    }
+    28% {
+        border: 5px solid yellow;
+    }
+    42% {
+        border: 5px solid green;
+    }
+    57% {
+        border: 5px solid blue;
+    }
+    71% {
+        border: 5px solid indigo;
+    }
+    85% {
+        border: 5px solid violet;
+    }
+    100% {
+        border: 5px solid red;
+    }
+}
