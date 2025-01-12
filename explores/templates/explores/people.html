@@ -1,35 +1,76 @@
-{% extends 'explores/base.html' %} {% block content %}{% load custom_filters %}
+{% extends 'explores/base.html' %} {% block content %} {% load custom_filters %}
+
 <div class="container mt-5">
     <div class="row justify-content-center">
-        {% for user in page_obj %}
+        {% if page_obj %} {% for user in page_obj %}
         <div class="col-md-4 mb-4">
-            <a
-                href="{% url 'check_out_profile' user.id %}"
-                class="text-decoration-none"
-            >
-                <div class="card shadow-sm">
-                    <div class="card-body text-center">
-                        <img
-                            src="{{ user.profile.profile_picture.url }}"
-                            alt="Profile Picture"
-                            class="rounded-circle mb-3 border border-3"
-                            style="
-                                width: 120px;
-                                height: 120px;
-                                object-fit: cover;
-                            "
-                        />
+            <div class="card shadow-sm d-flex flex-column">
+                <div class="card-body text-center flex-grow-1">
+                    <img
+                        src="{{ user.profile.profile_picture.url }}"
+                        alt="Profile Picture"
+                        class="rounded-circle mb-3 border border-3"
+                        style="width: 120px; height: 120px; object-fit: cover"
+                    />
+                    <a
+                        href="{% url 'check_out_profile' user.id %}"
+                        class="text-decoration-none"
+                    >
                         <h5 class="card-title text-primary">
                             {{ user.username|highlight_search:search_query }}
                         </h5>
-                        <p class="card-text text-muted">
-                            {{ user.profile.bio }}
-                        </p>
-                    </div>
+                    </a>
+                    <p class="card-text text-muted">{{ user.profile.bio }}</p>
                 </div>
-            </a>
+                <div class="card-footer text-center">
+                    <button
+                        id="follow-btn-{{user.id}}"
+                        class="btn p-0 fs-6 w-100 border-0"
+                        data-user-id="{{user.id}}"
+                        onclick="toggleFollow(event)"
+                    >
+                        {% if user.is_followed %} Unfollow {% else %} Follow
+                        {%endif%}
+                    </button>
+                </div>
+            </div>
         </div>
-        {% endfor %}
+        {% endfor %} {% else %}
+        <div class="col-12 text-center">
+            <div class=" p-4 shadow-sm">
+                <p class="fs-4 mt-3 mb-0">This feels lonely.😞</p>
+                    Try makeing some friends.
+                </p>
+            </div>
+        </div>
+        {% endif %}
     </div>
 </div>
+
+<script>
+    //AJAX update reactive follow button
+    function toggleFollow(event) {
+        const button = event.target;
+        const user_id = button.getAttribute("data-user-id");
+
+        fetch(`/accounts/toggle_follow/${user_id}/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}",
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    if (data.is_followed) {
+                        button.textContent = "UnFollow";
+                    } else {
+                        button.textContent = "Follow";
+                    }
+                }
+            })
+            .catch((error) => console.error("Error toggling follow", error));
+    }
+</script>
 {% endblock %}

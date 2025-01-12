@@ -1,7 +1,9 @@
 {% extends 'explores/base.html' %}{% load custom_filters %} {% block content %}
 <ul class="list-group">
     {% for post, user in page_obj %}
-    <li class="list-group-item">
+    <li
+        class="list-group-item {%if post.is_creator_followed == True%}followed{%endif%}"
+    >
         <a href="{% url 'check_out_profile' user.id %}">
             <h5 class="mb-1 text-primary fs-3">{{ user.username }}</h5>
         </a>

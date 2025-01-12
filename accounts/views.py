@@ -5,7 +5,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from accounts.forms import PostForm, ProfileForm
-from accounts.models import Post, Profile
+from accounts.models import Post, Profile, Follow
+from django.http import JsonResponse
+from collections import UserDict
+from django.contrib.auth.models import User
 
 def user_login(request):
     if request.method == 'POST':
@@ -82,3 +85,20 @@ def edit_profile(request):
         form = ProfileForm(instance=profile)
 
     return render(request, 'accounts/edit_profile.html', {'form': form, 'profile':profile})
+
+@login_required
+def toggle_follow(request,id):
+    user = request.user
+    target_user = get_object_or_404(User,id=id)
+
+    if request.method == 'POST':
+
+        follow = Follow.objects.filter(follower=user,following=target_user).first()
+
+        if follow != None:
+            follow.delete()
+            return JsonResponse({'success':True, 'is_followed':False})
+        Follow.objects.create(follower=user,following=target_user)
+        return JsonResponse({'success':True, 'is_followed':True})
+
+    return JsonResponse({'success': False, 'message': 'Invalid request method'})

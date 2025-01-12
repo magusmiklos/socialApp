@@ -6,12 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Bootstrap Styled List with Search</title>
 
-        <link rel="stylesheet" href="{% static 'styles.css' %}" />
         <!-- Bootstrap CSS -->
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
             rel="stylesheet"
         />
+
+        <link rel="stylesheet" href="{% static 'styles.css' %}" />
     </head>
     <body class="bg-light">
         <div class="container my-4">
@@ -45,18 +46,23 @@
                         >
                         <a
                             href="{% url 'explore' %}"
-                            class="btn btn-primary rounded-pill px-2 py-1 fs-6 ms-2"
-                            >All</a
+                            class="btn rounded-pill px-2 py-1 fs-6 ms-2 {%if request.get_full_path == '/'%} fancy-background {%else%} border-0 {%endif%}"
+                            >Explore</a
                         >
                         <a
                             href="{% url 'follow' %}"
-                            class="btn btn-primary rounded-pill px-2 py-1 fs-6 ms-2"
-                            >Follow</a
+                            class="btn rounded-pill px-2 py-1 fs-6 ms-2 {%if request.get_full_path == '/follow/'%} fancy-background {%else%} border-0 {%endif%}"
+                            >For You</a
                         >
                         <a
                             href="{% url 'people' %}"
-                            class="btn btn-primary rounded-pill px-2 py-1 fs-6 ms-2"
+                            class="btn rounded-pill px-2 py-1 fs-6 ms-2 {%if request.get_full_path == '/people/'%} fancy-background {%else%} border-0 {%endif%}"
                             >People</a
+                        >
+                        <a
+                            href="{% url 'followed' %}"
+                            class="btn rounded-pill px-2 py-1 fs-6 ms-2 {%if request.get_full_path == '/followed/'%} fancy-background {%else%} border-0 {%endif%}"
+                            >Follow</a
                         >
                     </div>
                 </div>

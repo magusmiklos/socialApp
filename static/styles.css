@@ -1,4 +1,50 @@
 /* Spinning Rainbow Border Class */
+.followed {
+    border-radius: 0px;
+    animation: followed 15s infinite linear;
+}
+
+@keyframes followed {
+    0% {
+        border: 3px solid #171738;
+    }
+    25% {
+        border: 3px solid #2e1760;
+    }
+    50% {
+        border: 3px solid #7880b5;
+    }
+    75% {
+        border: 3px solid #6987c9;
+    }
+    100% {
+        border: 3px solid #171738;
+    }
+}
+
+.fancy-background {
+    background: linear-gradient(
+        90deg,
+        #ceeaf7,
+        #ccd7e4,
+        #d5c9df,
+        #dcb8cb,
+        #ceeaf7
+    ); /* Gradient colors */
+    background-size: 600% 100%; /* Make the background large enough to move */
+    animation: moveBackground 30s linear infinite;
+}
+@keyframes moveBackground {
+    0% {
+        background-position: -100% 0;
+    }
+    50% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: -100% 0;
+    }
+}
 .spin-rainbow {
     position: relative;
     display: inline-block;

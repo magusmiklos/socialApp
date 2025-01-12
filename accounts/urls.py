@@ -1,6 +1,6 @@
 
 from django.urls import path
-from .views import user_login, user_profile, user_logout, create_post, load_post, delete_post, edit_profile, user_register
+from .views import user_login, user_profile, user_logout, create_post, load_post, delete_post, edit_profile, user_register, toggle_follow
 
 urlpatterns = [
     path('login/', user_login, name='login'),
@@ -11,4 +11,5 @@ urlpatterns = [
     path('delete_post/<int:id>/', delete_post, name='delete_post'),
     path('edit_profile/', edit_profile, name='edit_profile'),
     path('register/', user_register, name='register'),
+    path('toggle_follow/<int:id>/', toggle_follow, name='toggle_follow')
 ]
