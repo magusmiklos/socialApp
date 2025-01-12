@@ -1,0 +1,35 @@
+{% extends 'explores/base.html' %} {% block content %}{% load custom_filters %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        {% for user in page_obj %}
+        <div class="col-md-4 mb-4">
+            <a
+                href="{% url 'check_out_profile' user.id %}"
+                class="text-decoration-none"
+            >
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <img
+                            src="{{ user.profile.profile_picture.url }}"
+                            alt="Profile Picture"
+                            class="rounded-circle mb-3 border border-3"
+                            style="
+                                width: 120px;
+                                height: 120px;
+                                object-fit: cover;
+                            "
+                        />
+                        <h5 class="card-title text-primary">
+                            {{ user.username|highlight_search:search_query }}
+                        </h5>
+                        <p class="card-text text-muted">
+                            {{ user.profile.bio }}
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

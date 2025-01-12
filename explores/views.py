@@ -47,3 +47,30 @@ def check_out_post(request,id):
     user = post.user
 
     return render(request,"explores/check_out_post.html",{"post":post,"user":user})
+
+@login_required
+def follow_view(request):
+    return render(request,"explores/follow.html")
+
+@login_required
+def people_view(request):
+    search_query = request.GET.get('search', '')
+
+    if search_query:
+        users = User.objects.select_related('profile').filter(
+            username__icontains=search_query
+        )
+    else:
+        users = User.objects.select_related('profile').all()
+
+    for user in users:
+        if user.profile.bio == None:
+            break
+        elif len(user.profile.bio) > 20:
+            user.profile.bio = user.profile.bio[:20] + '...'
+
+    paginator = Paginator(users, 9)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, "explores/people.html", {"page_obj": page_obj, "search_query": search_query})
