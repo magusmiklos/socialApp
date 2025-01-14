@@ -98,7 +98,7 @@ def people_view(request):
         user.is_followed = Follow.objects.filter(follower=request.user,following=user).exists()
 
         if user.profile.bio == None:
-            break
+            user.profile.bio = '-'
         elif len(user.profile.bio) > 20:
             user.profile.bio = user.profile.bio[:20] + '...'
 
@@ -126,7 +126,7 @@ def followed_people_view(request):
         user.is_followed = Follow.objects.filter(follower=request.user,following=user).exists()
 
         if user.profile.bio == None:
-            break
+            user.profile.bio = '-'
         elif len(user.profile.bio) > 20:
             user.profile.bio = user.profile.bio[:20] + '...'
 

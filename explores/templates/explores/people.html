@@ -1,5 +1,7 @@
 {% extends 'explores/base.html' %} {% block content %} {% load custom_filters %}
 
+{% load unicorn %}
+{% unicorn_scripts %}
 <div class="container mt-5">
     <div class="row justify-content-center">
         {% if page_obj %} {% for user in page_obj %}
@@ -23,15 +25,8 @@
                     <p class="card-text text-muted">{{ user.profile.bio }}</p>
                 </div>
                 <div class="card-footer text-center">
-                    <button
-                        id="follow-btn-{{user.id}}"
-                        class="btn p-0 fs-6 w-100 border-0"
-                        data-user-id="{{user.id}}"
-                        onclick="toggleFollow(event)"
-                    >
-                        {% if user.is_followed %} Unfollow {% else %} Follow
-                        {%endif%}
-                    </button>
+
+                    {% unicorn 'menu-btn' user=user %}
                 </div>
             </div>
         </div>
@@ -46,31 +41,4 @@
         {% endif %}
     </div>
 </div>
-
-<script>
-    //AJAX update reactive follow button
-    function toggleFollow(event) {
-        const button = event.target;
-        const user_id = button.getAttribute("data-user-id");
-
-        fetch(`/accounts/toggle_follow/${user_id}/`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": "{{ csrf_token }}",
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    if (data.is_followed) {
-                        button.textContent = "UnFollow";
-                    } else {
-                        button.textContent = "Follow";
-                    }
-                }
-            })
-            .catch((error) => console.error("Error toggling follow", error));
-    }
-</script>
 {% endblock %}

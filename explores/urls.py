@@ -7,5 +7,5 @@ urlpatterns = [
     path('check_out_post/<int:id>/', check_out_post, name='check_out_post'),
     path('follow/', follow_view, name='follow'),
     path('people/', people_view, name='people'),
-    path('followed/',followed_people_view, name='followed')
+    path('followed/',followed_people_view, name='followed'),
 ]

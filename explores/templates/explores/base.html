@@ -1,4 +1,5 @@
 {% load static %}
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -15,6 +16,7 @@
         <link rel="stylesheet" href="{% static 'styles.css' %}" />
     </head>
     <body class="bg-light">
+        {% csrf_token %}
         <div class="container my-4">
             <div class="row justify-content-center mb-4">
                 <!-- Search Bar Centered -->
@@ -46,22 +48,22 @@
                         >
                         <a
                             href="{% url 'explore' %}"
-                            class="btn rounded-pill px-2 py-1 fs-6 ms-2 {%if request.get_full_path == '/'%} fancy-background {%else%} border-0 {%endif%}"
+                            class="btn rounded-pill px-2 py-1 fs-6 ms-2 {%if '/follow/' not in request.get_full_path and '/people/' not in request.get_full_path and '/followed/' not in request.get_full_path%} fancy-background {%else%} border-0 {%endif%}"
                             >Explore</a
                         >
                         <a
                             href="{% url 'follow' %}"
-                            class="btn rounded-pill px-2 py-1 fs-6 ms-2 {%if request.get_full_path == '/follow/'%} fancy-background {%else%} border-0 {%endif%}"
+                            class="btn rounded-pill px-2 py-1 fs-6 ms-2 {%if '/follow/' in request.get_full_path %} fancy-background {%else%} border-0 {%endif%}"
                             >For You</a
                         >
                         <a
                             href="{% url 'people' %}"
-                            class="btn rounded-pill px-2 py-1 fs-6 ms-2 {%if request.get_full_path == '/people/'%} fancy-background {%else%} border-0 {%endif%}"
+                            class="btn rounded-pill px-2 py-1 fs-6 ms-2 {%if '/people/' in request.get_full_path %} fancy-background {%else%} border-0 {%endif%}"
                             >People</a
                         >
                         <a
                             href="{% url 'followed' %}"
-                            class="btn rounded-pill px-2 py-1 fs-6 ms-2 {%if request.get_full_path == '/followed/'%} fancy-background {%else%} border-0 {%endif%}"
+                            class="btn rounded-pill px-2 py-1 fs-6 ms-2 {%if '/followed/' in request.get_full_path%} fancy-background {%else%} border-0 {%endif%}"
                             >Follow</a
                         >
                     </div>
